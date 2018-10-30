@@ -58,14 +58,14 @@ func main() {
 	//	fmt.Println(err.Error())
 	//	return
 	//}
-
+	//
 	// 测试数据
 	answers = model.Answer{
 		GitHostAddress:   "http://wpsgit.kingsoft.net/",
 		GitServerVersion: "GitLab 6.3.0 LDAP",
-		RepoName:         "grb",
+		RepoName:         "grbtest",
 		RepoNamespace:    "galaxy",
-		Username:         "",
+		Username:         "wangtianyi1",
 		Password:         "",
 	}
 
@@ -103,23 +103,24 @@ func main() {
 }
 
 func createSubRepo(subRepoAnswer model.Answer, mainRepoName string, repoCreator repo_creator.RepoCreator) {
-	os.Mkdir(mainRepoName+"/"+subRepoAnswer.RepoName, os.ModeDir)
-	log.Println("create README file for " + subRepoAnswer.RepoName)
-	repoCreator.CreateRepo(subRepoAnswer)
-	run(exec.Command("git", "init"), mainRepoName+"/"+subRepoAnswer.RepoName)
-	ioutil.WriteFile(mainRepoName+"/"+subRepoAnswer.RepoName+"/README", []byte(""), 0644)
-	run(exec.Command("git", "add", "."), mainRepoName+"/"+subRepoAnswer.RepoName)
-	run(exec.Command("git", "commit", "-m", "\"init\""), mainRepoName+"/"+subRepoAnswer.RepoName)
-	parse, _ := url.Parse(subRepoAnswer.GitHostAddress)
-	gitRepoPath := "git@" + parse.Host + ":" + subRepoAnswer.RepoNamespace + "/" + subRepoAnswer.RepoName + ".git"
-	run(exec.Command("git", "remote", "add", "origin", gitRepoPath), mainRepoName+"/"+subRepoAnswer.RepoName)
-	run(exec.Command("git", "push", "-u", "origin", "master"), mainRepoName+"/"+subRepoAnswer.RepoName)
 	var subRepoFolderName string
 	if strings.HasSuffix(subRepoAnswer.RepoName, "vendor") {
 		subRepoFolderName = "vendor"
 	} else {
 		subRepoFolderName = subRepoAnswer.RepoName
 	}
+	subRepoFolderPath := mainRepoName + "/" + subRepoFolderName
+	os.Mkdir(subRepoFolderPath, os.ModeDir)
+	log.Println("create README file for " + subRepoAnswer.RepoName)
+	repoCreator.CreateRepo(subRepoAnswer)
+	run(exec.Command("git", "init"), subRepoFolderPath)
+	ioutil.WriteFile(subRepoFolderPath+"/README", []byte(""), 0644)
+	run(exec.Command("git", "add", "."), subRepoFolderPath)
+	run(exec.Command("git", "commit", "-m", "\"init\""), subRepoFolderPath)
+	parse, _ := url.Parse(subRepoAnswer.GitHostAddress)
+	gitRepoPath := "git@" + parse.Host + ":" + subRepoAnswer.RepoNamespace + "/" + subRepoAnswer.RepoName + ".git"
+	run(exec.Command("git", "remote", "add", "origin", gitRepoPath), subRepoFolderPath)
+	run(exec.Command("git", "push", "-u", "origin", "master"), subRepoFolderPath)
 	run(exec.Command("git", "submodule", "add", gitRepoPath, subRepoFolderName), mainRepoName)
 }
 
