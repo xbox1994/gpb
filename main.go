@@ -73,9 +73,14 @@ func main() {
 	var repoCreator repo_creator.RepoCreator
 	if "GitLab 6.3.0 LDAP" == answers.GitServerVersion {
 		repoCreator = &repo_creator.Gitlab630Ldap{}
+		repoCreator.Login(model.LoginInfo{
+			GitHostAddress: answers.GitHostAddress,
+			Username:       answers.Username,
+			Password:       answers.Password,
+		})
 	} else {
 		fmt.Println(errors.New(answers.GitServerVersion + " no implement yet"))
-		return
+		os.Exit(1)
 	}
 
 	// 创建所有Repo
