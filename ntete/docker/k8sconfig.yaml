@@ -1,0 +1,7 @@
+### 端口导出配置
+---
+export_ports:
+  - name: http
+    port: 80           # http 对外提供访问的入口端口
+    protocol: TCP
+    targetPort: 8080   # main.go程序代码中listen的端口，可以与对外端口不一样
