@@ -1,10 +1,10 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"gopkg.in/AlecAivazis/survey.v1"
 	"grb/model"
-	"grb/project/beegocli"
 	"grb/repo_creator"
 	"io/ioutil"
 	"log"
@@ -51,58 +51,55 @@ var qs = []*survey.Question{
 }
 
 func main() {
-	beegocli.CreateProject("testcli")
+	answers := model.Answer{}
 
-	//beegocli.Creator()
-	//answers := model.Answer{}
-	//
-	////err := survey.Ask(qs, &answers)
-	////if err != nil {
-	////	fmt.Println(err.Error())
-	////	return
-	////}
-	//
-	//// 测试数据
-	//answers = model.Answer{
-	//	GitHostAddress:   "http://wpsgit.kingsoft.net/",
-	//	GitServerVersion: "GitLab 6.3.0 LDAP",
-	//	RepoName:         "grb",
-	//	RepoNamespace:    "galaxy",
-	//	Username:         "",
-	//	Password:         "",
-	//}
-	//
-	//// 选择creator
-	//var repoCreator repo_creator.RepoCreator
-	//if "GitLab 6.3.0 LDAP" == answers.GitServerVersion {
-	//	repoCreator = &repo_creator.Gitlab630Ldap{}
-	//} else {
-	//	fmt.Println(errors.New(answers.GitServerVersion + " no implement yet"))
+	//err := survey.Ask(qs, &answers)
+	//if err != nil {
+	//	fmt.Println(err.Error())
 	//	return
 	//}
-	//
-	//// 创建所有Repo
-	//// 执行Git操作，将子Repo加入到父Repo中
-	//mainRepoName := answers.RepoName
-	//os.Mkdir(mainRepoName, os.ModeDir)
-	//repoCreator.CreateRepo(answers)
-	//run(exec.Command("git", "init"), mainRepoName)
-	//
-	//answers.RepoName = mainRepoName + "-admin"
-	//createSubRepo(answers, mainRepoName, repoCreator)
-	//answers.RepoName = mainRepoName + "-server"
-	//createSubRepo(answers, mainRepoName, repoCreator)
-	//answers.RepoName = mainRepoName + "-common"
-	//createSubRepo(answers, mainRepoName, repoCreator)
-	//answers.RepoName = mainRepoName + "-vendor"
-	//createSubRepo(answers, mainRepoName, repoCreator)
-	//
-	//run(exec.Command("git", "add", "."), mainRepoName)
-	//run(exec.Command("git", "commit", "-m", "\"init\""), mainRepoName)
-	//parse, _ := url.Parse(answers.GitHostAddress)
-	//gitRepoPath := "git@" + parse.Host + ":" + answers.RepoNamespace + "/" + mainRepoName + ".git"
-	//run(exec.Command("git", "remote", "add", "origin", gitRepoPath), mainRepoName)
-	//run(exec.Command("git", "push", "-u", "origin", "master"), mainRepoName)
+
+	// 测试数据
+	answers = model.Answer{
+		GitHostAddress:   "http://wpsgit.kingsoft.net/",
+		GitServerVersion: "GitLab 6.3.0 LDAP",
+		RepoName:         "grb",
+		RepoNamespace:    "galaxy",
+		Username:         "",
+		Password:         "",
+	}
+
+	// 选择creator
+	var repoCreator repo_creator.RepoCreator
+	if "GitLab 6.3.0 LDAP" == answers.GitServerVersion {
+		repoCreator = &repo_creator.Gitlab630Ldap{}
+	} else {
+		fmt.Println(errors.New(answers.GitServerVersion + " no implement yet"))
+		return
+	}
+
+	// 创建所有Repo
+	// 执行Git操作，将子Repo加入到父Repo中
+	mainRepoName := answers.RepoName
+	os.Mkdir(mainRepoName, os.ModeDir)
+	repoCreator.CreateRepo(answers)
+	run(exec.Command("git", "init"), mainRepoName)
+
+	answers.RepoName = mainRepoName + "-admin"
+	createSubRepo(answers, mainRepoName, repoCreator)
+	answers.RepoName = mainRepoName + "-server"
+	createSubRepo(answers, mainRepoName, repoCreator)
+	answers.RepoName = mainRepoName + "-common"
+	createSubRepo(answers, mainRepoName, repoCreator)
+	answers.RepoName = mainRepoName + "-vendor"
+	createSubRepo(answers, mainRepoName, repoCreator)
+
+	run(exec.Command("git", "add", "."), mainRepoName)
+	run(exec.Command("git", "commit", "-m", "\"init\""), mainRepoName)
+	parse, _ := url.Parse(answers.GitHostAddress)
+	gitRepoPath := "git@" + parse.Host + ":" + answers.RepoNamespace + "/" + mainRepoName + ".git"
+	run(exec.Command("git", "remote", "add", "origin", gitRepoPath), mainRepoName)
+	run(exec.Command("git", "push", "-u", "origin", "master"), mainRepoName)
 }
 
 func createSubRepo(subRepoAnswer model.Answer, mainRepoName string, repoCreator repo_creator.RepoCreator) {
