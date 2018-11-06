@@ -3,8 +3,10 @@ package repository
 import (
 	"errors"
 	"gopkg.in/AlecAivazis/survey.v1"
+	"grb/common/project_type"
 	"grb/repository/combiner"
-	"grb/repository/creator"
+	"grb/repository/creater"
+	"grb/repository/loginer"
 	"grb/repository/model"
 )
 
@@ -44,7 +46,7 @@ var qs = []*survey.Question{
 	},
 }
 
-func Create() string {
+func Create(projectStructure string) string {
 	answers := model.Answer{}
 
 	//err := survey.Ask(qs, &answers)
@@ -63,25 +65,36 @@ func Create() string {
 		Password:         "",
 	}
 
-	// 选择creator
-	var repoCreator creator.RepoCreator
+	// 选择creator, loginer
+	var repoCreator creater.RepoCreator
+	var gitLoginer loginer.GitWebInterfaceLoginer
 	if "GitLab 6.3.0 LDAP" == answers.GitServerVersion {
-		repoCreator = &creator.Gitlab630Ldap{}
+		gitLoginer = &loginer.Gitlab630Ldap{}
+		repoCreator = &creater.Gitlab630Ldap{}
 	} else {
 		panic(errors.New(answers.GitServerVersion + " no implement yet"))
 	}
 
-	repoCreator.Login(model.LoginInfo{
+	// 登录获取到Cookie与RepoNamespaceId
+	repoCreatePreInfo := gitLoginer.Login(model.LoginInfo{
 		GitHostAddress: answers.GitHostAddress,
 		Username:       answers.Username,
 		Password:       answers.Password,
 		RepoNamespace:  answers.RepoNamespace,
 	})
 
-	// 在远端与本地创建并合并子项目到父项目
-	combiner.RepoCombiner{
-		RepoCreator: repoCreator,
-	}.CreateAndCombineRepo(answers)
+	var repoCombiner combiner.RepoCombiner
+	switch projectStructure {
+	case project_type.OneIndependent:
+		repoCombiner = combiner.SingleCombiner{}
+	case project_type.TwoIndependent:
+		repoCombiner = combiner.TwoIndependentCombiner{}
+	case project_type.TwoIndependentWithParent:
+		repoCombiner = combiner.TwoIndependentParentCombiner{}
+	}
+
+	// 在远端与本地创建父项目、子项目，合并子项目到父项目
+	repoCombiner.CreateAndCombine(repoCreator, repoCreatePreInfo, answers)
 
 	return answers.RepoName
 }

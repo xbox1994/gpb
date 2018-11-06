@@ -2,6 +2,7 @@ package beegocli
 
 import (
 	"fmt"
+	"grb/common/project_type"
 	"grb/project/beegocli/template"
 	"grb/util"
 	"os"
@@ -35,13 +36,26 @@ func CreateProject(projectName string, path string) (err error) {
 		}
 	}
 	if err = util.Run(exec.Command("bee", "api", projectName), path); err == nil {
-		if basePath, err := os.Getwd(); err == nil {
-			for _, template := range template.AvailableTemplates {
-				if err = template.StdOut(template, basePath, projectName); err != nil {
-					break
-				}
+		for _, template := range template.AvailableTemplates {
+			if err = template.StdOut(template, path, projectName); err != nil {
+				break
 			}
 		}
 	}
 	return
+}
+
+func CreateProjects(projectStructure string, projectName string) (err error) {
+	switch projectStructure {
+	case project_type.OneIndependent:
+		err = CreateProject(projectName, "")
+	case project_type.TwoIndependent:
+		err = CreateProject(projectName+"-admin", "")
+		err = CreateProject(projectName+"-server", "")
+	case project_type.TwoIndependentWithParent:
+		os.Mkdir(projectName, os.ModeDir)
+		err = CreateProject(projectName+"-admin", projectName)
+		err = CreateProject(projectName+"-server", projectName)
+	}
+	return err
 }

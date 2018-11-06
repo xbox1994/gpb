@@ -1,7 +1,10 @@
 package main
 
-import "grb/project/beegocli"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
-	beegocli.CreateProject("test")
+	fmt.Println(os.Getwd())
 }
