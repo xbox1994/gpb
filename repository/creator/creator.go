@@ -1,6 +1,6 @@
 package creator
 
-import "grb/model"
+import "grb/repository/model"
 
 type RepoCreator interface {
 	Login(loginInfo model.LoginInfo)

@@ -2,8 +2,8 @@ package combiner
 
 import (
 	"fmt"
-	"grb/model"
 	"grb/repository/creator"
+	"grb/repository/model"
 	"grb/util"
 	"io/ioutil"
 	"net/url"

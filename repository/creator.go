@@ -2,12 +2,10 @@ package repository
 
 import (
 	"errors"
-	"fmt"
 	"gopkg.in/AlecAivazis/survey.v1"
-	"grb/model"
 	"grb/repository/combiner"
 	"grb/repository/creator"
-	"os"
+	"grb/repository/model"
 )
 
 var qs = []*survey.Question{
@@ -32,11 +30,6 @@ var qs = []*survey.Question{
 	{
 		Name:     "repoNamespace",
 		Prompt:   &survey.Input{Message: "Repository namespace:"},
-		Validate: survey.Required,
-	},
-	{
-		Name:     "includeCommon",
-		Prompt:   &survey.Confirm{Message: "Create common repo?"},
 		Validate: survey.Required,
 	},
 	{
@@ -74,16 +67,16 @@ func Create() string {
 	var repoCreator creator.RepoCreator
 	if "GitLab 6.3.0 LDAP" == answers.GitServerVersion {
 		repoCreator = &creator.Gitlab630Ldap{}
-		repoCreator.Login(model.LoginInfo{
-			GitHostAddress: answers.GitHostAddress,
-			Username:       answers.Username,
-			Password:       answers.Password,
-			RepoNamespace:  answers.RepoNamespace,
-		})
 	} else {
-		fmt.Println(errors.New(answers.GitServerVersion + " no implement yet"))
-		os.Exit(1)
+		panic(errors.New(answers.GitServerVersion + " no implement yet"))
 	}
+
+	repoCreator.Login(model.LoginInfo{
+		GitHostAddress: answers.GitHostAddress,
+		Username:       answers.Username,
+		Password:       answers.Password,
+		RepoNamespace:  answers.RepoNamespace,
+	})
 
 	// 在远端与本地创建并合并子项目到父项目
 	combiner.RepoCombiner{

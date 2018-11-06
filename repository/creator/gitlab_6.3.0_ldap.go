@@ -3,7 +3,7 @@ package creator
 import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
-	"grb/model"
+	"grb/repository/model"
 	"io/ioutil"
 	"net/http"
 	"net/url"

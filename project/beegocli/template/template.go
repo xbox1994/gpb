@@ -8,8 +8,8 @@ import (
 
 const (
 	Create = 1 << iota
-	Modify = 1 << iota
-	Del    = 1 << iota
+	Modify
+	Del
 )
 
 type Template struct {
