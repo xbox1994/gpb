@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"gopkg.in/AlecAivazis/survey.v1"
 	"grb/model"
-	"grb/repo_combiner"
-	"grb/repo_creator"
+	"grb/repository/combiner"
+	"grb/repository/creator"
 	"os"
 )
 
@@ -68,13 +68,12 @@ func main() {
 		RepoNamespace:    "galaxy",
 		Username:         "wangtianyi1",
 		Password:         "",
-		IncludeCommon:    false,
 	}
 
 	// 选择creator
-	var repoCreator repo_creator.RepoCreator
+	var repoCreator creator.RepoCreator
 	if "GitLab 6.3.0 LDAP" == answers.GitServerVersion {
-		repoCreator = &repo_creator.Gitlab630Ldap{}
+		repoCreator = &creator.Gitlab630Ldap{}
 		repoCreator.Login(model.LoginInfo{
 			GitHostAddress: answers.GitHostAddress,
 			Username:       answers.Username,
@@ -86,7 +85,7 @@ func main() {
 	}
 
 	// 在远端与本地创建并合并子项目到父项目
-	repo_combiner.RepoCombiner{
+	combiner.RepoCombiner{
 		RepoCreator: repoCreator,
 	}.CreateAndCombineRepo(answers)
 

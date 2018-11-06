@@ -1,4 +1,4 @@
-package repo_creator
+package creator
 
 import "grb/model"
 

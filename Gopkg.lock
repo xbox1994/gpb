@@ -2,6 +2,41 @@
 
 
 [[projects]]
+  digest = "1:a62f6ed230a8cd138a9efbe718e7d0b0294f139266f5f55cd942769a9aac8de2"
+  name = "github.com/PuerkitoBio/goquery"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "dc2ec5c7ca4d9aae063b79b9f581dd3ea6afd2b2"
+  version = "v1.4.1"
+
+[[projects]]
+  digest = "1:66b3310cf22cdc96c35ef84ede4f7b9b370971c4025f394c89a2638729653b11"
+  name = "github.com/andybalholm/cascadia"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "901648c87902174f774fac311d7f176f8647bdaa"
+  version = "v1.0.0"
+
+[[projects]]
+  digest = "1:0a152de447111708ad82dac6bddc7c87294937cdd70d608891ef6787549b1b07"
+  name = "github.com/astaxie/beego"
+  packages = [
+    ".",
+    "config",
+    "context",
+    "context/param",
+    "grace",
+    "logs",
+    "orm",
+    "session",
+    "toolbox",
+    "utils",
+  ]
+  pruneopts = "UT"
+  revision = "053a075344c118a5cc41981b29ef612bb53d20ca"
+  version = "v1.10.1"
+
+[[projects]]
   branch = "master"
   digest = "1:400e113a367b511b9b09ca642ee11d9885485a93838526d697033af334a2fdde"
   name = "github.com/kballard/go-shellquote"
@@ -35,6 +70,28 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:674a2405f77863f4f362e3e45078fd9caa647dc1c0e8b022e3b9dc1ae89fbc8f"
+  name = "golang.org/x/crypto"
+  packages = [
+    "acme",
+    "acme/autocert",
+  ]
+  pruneopts = "UT"
+  revision = "4d3f4d9ffa16a13f451c3b2999e9c49e9750bf06"
+
+[[projects]]
+  branch = "master"
+  digest = "1:1a1ecfa7b54ca3f7a0115ab5c578d7d6a5d8b605839c549e80260468c42f8be7"
+  name = "golang.org/x/net"
+  packages = [
+    "html",
+    "html/atom",
+  ]
+  pruneopts = "UT"
+  revision = "c10e9556a7bc0e7c942242b606f0acf024ad5d6a"
+
+[[projects]]
+  branch = "master"
   digest = "1:466e5917ea5f69d435d0ab3015dc4b57b80d34a6caf1104097ac82ab462b86e4"
   name = "golang.org/x/sys"
   packages = ["unix"]
@@ -53,9 +110,23 @@
   revision = "0be4439d90f533f1ea2e0adddd5b1a405e6f5559"
   version = "v1.6.3"
 
+[[projects]]
+  digest = "1:342378ac4dcb378a5448dd723f0784ae519383532f5e70ade24132c4c8693202"
+  name = "gopkg.in/yaml.v2"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
+  version = "v2.2.1"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["gopkg.in/AlecAivazis/survey.v1"]
+  input-imports = [
+    "github.com/PuerkitoBio/goquery",
+    "github.com/astaxie/beego",
+    "github.com/astaxie/beego/logs",
+    "github.com/astaxie/beego/orm",
+    "gopkg.in/AlecAivazis/survey.v1",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

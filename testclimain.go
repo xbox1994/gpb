@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	_ "\grb/testclirouters"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"

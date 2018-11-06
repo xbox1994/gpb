@@ -1,19 +1,18 @@
-package repo_combiner
+package combiner
 
 import (
 	"fmt"
 	"grb/model"
-	"grb/repo_creator"
+	"grb/repository/creator"
 	"io/ioutil"
 	"log"
 	"net/url"
 	"os"
 	"os/exec"
-	"strings"
 )
 
 type RepoCombiner struct {
-	RepoCreator repo_creator.RepoCreator
+	RepoCreator creator.RepoCreator
 }
 
 func (r RepoCombiner) CreateAndCombineRepo(answers model.Answer) {
@@ -27,12 +26,6 @@ func (r RepoCombiner) CreateAndCombineRepo(answers model.Answer) {
 	r.createSubRepo(answers, mainRepoName)
 	answers.RepoName = mainRepoName + "-server"
 	r.createSubRepo(answers, mainRepoName)
-	if answers.IncludeCommon {
-		answers.RepoName = mainRepoName + "-common"
-		r.createSubRepo(answers, mainRepoName)
-	}
-	answers.RepoName = mainRepoName + "-vendor"
-	r.createSubRepo(answers, mainRepoName)
 
 	// 将子Repo加入到父Repo中
 	run(exec.Command("git", "add", "."), mainRepoName)
@@ -45,11 +38,7 @@ func (r RepoCombiner) CreateAndCombineRepo(answers model.Answer) {
 
 func (r RepoCombiner) createSubRepo(subRepoAnswers model.Answer, mainRepoName string) {
 	var subRepoFolderName string
-	if strings.HasSuffix(subRepoAnswers.RepoName, "vendor") {
-		subRepoFolderName = "vendor"
-	} else {
-		subRepoFolderName = subRepoAnswers.RepoName
-	}
+	subRepoFolderName = subRepoAnswers.RepoName
 	subRepoFolderPath := mainRepoName + "/" + subRepoFolderName
 	os.Mkdir(subRepoFolderPath, os.ModeDir)
 	log.Println("create README file for " + subRepoAnswers.RepoName)

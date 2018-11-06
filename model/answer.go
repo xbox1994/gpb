@@ -5,7 +5,6 @@ type Answer struct {
 	GitServerVersion string
 	RepoName         string
 	RepoNamespace    string
-	IncludeCommon    bool
 	Username         string
 	Password         string
 }
