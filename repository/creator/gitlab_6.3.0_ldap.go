@@ -17,6 +17,7 @@ type Gitlab630Ldap struct {
 }
 
 func (g *Gitlab630Ldap) Login(loginInfo model.LoginInfo) {
+	fmt.Println("Login in...")
 	g.client =
 		http.Client{
 			CheckRedirect: func(req *http.Request, via []*http.Request) error {
@@ -27,7 +28,7 @@ func (g *Gitlab630Ldap) Login(loginInfo model.LoginInfo) {
 	setRepoNamespaceId(loginInfo, g)
 
 	if g.repoNamespaceId == "" || g.cookie == "" {
-		fmt.Printf("login info invalid: %s, %s", g.repoNamespaceId, g.cookie)
+		fmt.Printf("login info invalid: %s, %s\n", g.repoNamespaceId, g.cookie)
 	}
 }
 
@@ -60,7 +61,7 @@ func setRepoNamespaceId(loginInfo model.LoginInfo, g *Gitlab630Ldap) {
 
 	doc.Find("#project_namespace_id optgroup").Each(func(i int, s *goquery.Selection) {
 		element := s.Find("option")
-		if element.Text() == "galaxy" {
+		if element.Text() == loginInfo.RepoNamespace {
 			repoNamespaceId, _ := element.Attr("value")
 			g.repoNamespaceId = repoNamespaceId
 			fmt.Println("Get repo namespace id: " + g.repoNamespaceId)
@@ -80,5 +81,9 @@ func (g *Gitlab630Ldap) CreateRepo(answer model.Answer) {
 	res, _ := g.client.Do(req)
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
-	fmt.Println(string(body))
+	if strings.Contains(string(body), answer.RepoName) {
+		fmt.Printf("create repo %s success\n", answer.RepoName)
+	}else{
+		fmt.Printf("create repo %s failed\n", answer.RepoName)
+	}
 }

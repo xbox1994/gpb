@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"grb/model"
 	"grb/repository/creator"
+	"grb/util"
 	"io/ioutil"
-	"log"
 	"net/url"
 	"os"
 	"os/exec"
@@ -20,7 +20,7 @@ func (r RepoCombiner) CreateAndCombineRepo(answers model.Answer) {
 	mainRepoName := answers.RepoName
 	os.Mkdir(mainRepoName, os.ModeDir)
 	r.RepoCreator.CreateRepo(answers)
-	run(exec.Command("git", "init"), mainRepoName)
+	util.Run(exec.Command("git", "init"), mainRepoName)
 
 	answers.RepoName = mainRepoName + "-admin"
 	r.createSubRepo(answers, mainRepoName)
@@ -28,12 +28,12 @@ func (r RepoCombiner) CreateAndCombineRepo(answers model.Answer) {
 	r.createSubRepo(answers, mainRepoName)
 
 	// 将子Repo加入到父Repo中
-	run(exec.Command("git", "add", "."), mainRepoName)
-	run(exec.Command("git", "commit", "-m", "\"init\""), mainRepoName)
+	util.Run(exec.Command("git", "add", "."), mainRepoName)
+	util.Run(exec.Command("git", "commit", "-m", "\"init\""), mainRepoName)
 	parse, _ := url.Parse(answers.GitHostAddress)
 	gitRepoPath := "git@" + parse.Host + ":" + answers.RepoNamespace + "/" + mainRepoName + ".git"
-	run(exec.Command("git", "remote", "add", "origin", gitRepoPath), mainRepoName)
-	run(exec.Command("git", "push", "-u", "origin", "master"), mainRepoName)
+	util.Run(exec.Command("git", "remote", "add", "origin", gitRepoPath), mainRepoName)
+	util.Run(exec.Command("git", "push", "-u", "origin", "master"), mainRepoName)
 }
 
 func (r RepoCombiner) createSubRepo(subRepoAnswers model.Answer, mainRepoName string) {
@@ -41,24 +41,15 @@ func (r RepoCombiner) createSubRepo(subRepoAnswers model.Answer, mainRepoName st
 	subRepoFolderName = subRepoAnswers.RepoName
 	subRepoFolderPath := mainRepoName + "/" + subRepoFolderName
 	os.Mkdir(subRepoFolderPath, os.ModeDir)
-	log.Println("create README file for " + subRepoAnswers.RepoName)
+	fmt.Println("create README file for " + subRepoAnswers.RepoName)
 	r.RepoCreator.CreateRepo(subRepoAnswers)
-	run(exec.Command("git", "init"), subRepoFolderPath)
+	util.Run(exec.Command("git", "init"), subRepoFolderPath)
 	ioutil.WriteFile(subRepoFolderPath+"/README", []byte(""), 0644)
-	run(exec.Command("git", "add", "."), subRepoFolderPath)
-	run(exec.Command("git", "commit", "-m", "\"init\""), subRepoFolderPath)
+	util.Run(exec.Command("git", "add", "."), subRepoFolderPath)
+	util.Run(exec.Command("git", "commit", "-m", "\"init\""), subRepoFolderPath)
 	parse, _ := url.Parse(subRepoAnswers.GitHostAddress)
 	gitRepoPath := "git@" + parse.Host + ":" + subRepoAnswers.RepoNamespace + "/" + subRepoAnswers.RepoName + ".git"
-	run(exec.Command("git", "remote", "add", "origin", gitRepoPath), subRepoFolderPath)
-	run(exec.Command("git", "push", "-u", "origin", "master"), subRepoFolderPath)
-	run(exec.Command("git", "submodule", "add", gitRepoPath, subRepoFolderName), mainRepoName)
-}
-
-func run(cmd *exec.Cmd, dir string) {
-	fmt.Println(cmd.Args)
-	cmd.Dir = dir
-	e := cmd.Run()
-	if e != nil {
-		fmt.Println(e)
-	}
+	util.Run(exec.Command("git", "remote", "add", "origin", gitRepoPath), subRepoFolderPath)
+	util.Run(exec.Command("git", "push", "-u", "origin", "master"), subRepoFolderPath)
+	util.Run(exec.Command("git", "submodule", "add", gitRepoPath, subRepoFolderName), mainRepoName)
 }

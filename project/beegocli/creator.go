@@ -3,6 +3,7 @@ package beegocli
 import (
 	"fmt"
 	"grb/project/beegocli/template"
+	"grb/util"
 	"os"
 	"os/exec"
 )
@@ -22,7 +23,7 @@ func InstallBee() (err error) {
 	return
 }
 
-func CreateProject(projectName string) (err error) {
+func CreateProject(projectName string, path string) (err error) {
 	defer func() {
 		if err != nil {
 			fmt.Println(err)
@@ -33,8 +34,7 @@ func CreateProject(projectName string) (err error) {
 			return
 		}
 	}
-	cmd := exec.Command("bee", "api", projectName)
-	if err = cmd.Run(); err == nil {
+	if err = util.Run(exec.Command("bee", "api", projectName), path); err == nil {
 		if basePath, err := os.Getwd(); err == nil {
 			for _, template := range template.AvailableTemplates {
 				if err = template.StdOut(template, basePath, projectName); err != nil {
