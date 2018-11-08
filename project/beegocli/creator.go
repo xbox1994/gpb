@@ -48,10 +48,10 @@ func CreateProject(projectName string, path string) (err error) {
 func CreateProjects(projectStructure string, projectName string) (err error) {
 	switch projectStructure {
 	case project_type.OneIndependent:
-		err = CreateProject(projectName, "")
+		err = CreateProject(projectName, ".")
 	case project_type.TwoIndependent:
-		err = CreateProject(projectName+"-admin", "")
-		err = CreateProject(projectName+"-server", "")
+		err = CreateProject(projectName+"-admin", ".")
+		err = CreateProject(projectName+"-server", ".")
 	case project_type.TwoIndependentWithParent:
 		os.Mkdir(projectName, os.ModeDir)
 		err = CreateProject(projectName+"-admin", projectName)
