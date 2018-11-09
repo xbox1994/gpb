@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 )
 
@@ -30,7 +31,11 @@ func (g *Gitlab630Ldap) Login(loginInfo model.LoginInfo) (repoCreatePreInfo Repo
 		loginInfo.GitHostAddress+"users/auth/ldap/callback",
 		strings.NewReader(form.Encode()))
 	res, _ := client.Do(req)
-	body, _ := ioutil.ReadAll(res.Body)
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println("login failed, please check your login info")
+		os.Exit(1)
+	}
 	if strings.Contains(string(body), loginInfo.GitHostAddress) {
 		fmt.Println("Get Cookie success")
 		repoCreatePreInfo.Cookie = res.Cookies()[2].Name + "=" + res.Cookies()[2].Value
@@ -57,7 +62,6 @@ func (g *Gitlab630Ldap) Login(loginInfo model.LoginInfo) (repoCreatePreInfo Repo
 		}
 	})
 	res.Body.Close()
-
 
 	if repoCreatePreInfo.RepoNamespaceId == "" || repoCreatePreInfo.Cookie == "" {
 		panic(fmt.Sprintf("login info invalid: %s, %s\n", repoCreatePreInfo.RepoNamespaceId, repoCreatePreInfo.Cookie))

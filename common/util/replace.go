@@ -18,6 +18,10 @@ func Replace(old, new string) filepath.WalkFunc {
 			return nil
 		}
 
+		if strings.Contains(path, ".git") {
+			return nil
+		}
+
 		matched, err := filepath.Match("*", fi.Name())
 
 		if err != nil {

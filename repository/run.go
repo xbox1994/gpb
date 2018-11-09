@@ -2,12 +2,14 @@ package repository
 
 import (
 	"errors"
+	"fmt"
 	"gopkg.in/AlecAivazis/survey.v1"
 	"grb/common/project_type"
 	"grb/repository/combiner"
 	"grb/repository/creater"
 	"grb/repository/loginer"
 	"grb/repository/model"
+	"os"
 )
 
 var qs = []*survey.Question{
@@ -49,21 +51,21 @@ var qs = []*survey.Question{
 func Create(projectStructure string) string {
 	answers := model.Answer{}
 
-	//err := survey.Ask(qs, &answers)
-	//if err != nil {
-	//	fmt.Println(err.Error())
-	//	return
-	//}
-
-	// 测试数据
-	answers = model.Answer{
-		GitHostAddress:   "http://wpsgit.kingsoft.net/",
-		GitServerVersion: "GitLab 6.3.0 LDAP",
-		RepoName:         "grbtest",
-		RepoNamespace:    "galaxy",
-		Username:         "wangtianyi1",
-		Password:         "",
+	err := survey.Ask(qs, &answers)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
+
+	//// 测试数据
+	//answers = model.Answer{
+	//	GitHostAddress:   "http://wpsgit.kingsoft.net/",
+	//	GitServerVersion: "GitLab 6.3.0 LDAP",
+	//	RepoName:         "grbtest",
+	//	RepoNamespace:    "galaxy",
+	//	Username:         "wangtianyi1",
+	//	Password:         "",
+	//}
 
 	// 选择creator, loginer
 	var repoCreator creater.RepoCreator
