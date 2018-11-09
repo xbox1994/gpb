@@ -2,10 +2,10 @@ package combiner
 
 import (
 	"fmt"
+	"grb/common/util"
 	"grb/repository/creater"
 	"grb/repository/loginer"
 	"grb/repository/model"
-	"grb/util"
 	"io/ioutil"
 	"net/url"
 	"os"

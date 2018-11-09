@@ -3,8 +3,8 @@ package beegocli
 import (
 	"fmt"
 	"grb/common/project_type"
+	"grb/common/util"
 	"grb/project/beegocli/template"
-	"grb/util"
 	"os"
 	"os/exec"
 )
