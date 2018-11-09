@@ -7,6 +7,7 @@ go repo builder
 3. 当前用户的ssh key已经保存到git远端服务器
 4. 在本项目根目录下执行`go run main.go`
 5. 将生成的项目移动到$GOPATH/src
+6. 按照项目内的README文件安装依赖，运行应用
 
 # 参考输入
 	GitHostAddress:   "http://wpsgit.kingsoft.net/",
