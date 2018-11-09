@@ -1,7 +1,6 @@
 package util
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -31,7 +30,6 @@ func Replace(old, new string) filepath.WalkFunc {
 			if err != nil {
 				panic(err)
 			}
-			fmt.Println(path)
 
 			newContents := strings.Replace(string(read), old, new, -1)
 

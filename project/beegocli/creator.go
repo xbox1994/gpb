@@ -2,10 +2,8 @@ package beegocli
 
 import (
 	"fmt"
-	"grb/common/project_type"
 	"grb/common/util"
 	"grb/project/beegocli/template"
-	"os"
 	"os/exec"
 )
 
@@ -43,19 +41,4 @@ func CreateProject(projectName string, path string) (err error) {
 		}
 	}
 	return
-}
-
-func CreateProjects(projectStructure string, projectName string) (err error) {
-	switch projectStructure {
-	case project_type.OneIndependent:
-		err = CreateProject(projectName, ".")
-	case project_type.TwoIndependent:
-		err = CreateProject(projectName+"-admin", ".")
-		err = CreateProject(projectName+"-server", ".")
-	case project_type.TwoIndependentWithParent:
-		os.Mkdir(projectName, os.ModeDir)
-		err = CreateProject(projectName+"-admin", projectName)
-		err = CreateProject(projectName+"-server", projectName)
-	}
-	return err
 }
