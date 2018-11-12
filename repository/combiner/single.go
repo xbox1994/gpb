@@ -30,7 +30,7 @@ func createRepo(
 	mainRepoName string) {
 	var repoFolderName string
 	repoFolderName = answers.RepoName
-	os.Mkdir(repoFolderName, 0644)
+	os.Mkdir(repoFolderName, 0775)
 	fmt.Println("create README file for " + answers.RepoName)
 	repoCreator.CreateRemoteRepo(answers, repoCreatePreInfo)
 	util.Run(exec.Command("git", "init"), repoFolderName)

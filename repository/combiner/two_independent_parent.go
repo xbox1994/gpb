@@ -21,7 +21,7 @@ func (r TwoIndependentParentCombiner) CreateAndCombine(
 	answers model.Answer) {
 	// 在远端与本地同时创建所有Repo
 	mainRepoName := answers.RepoName
-	os.Mkdir(mainRepoName, 0644)
+	os.Mkdir(mainRepoName, 0775)
 	repoCreator.CreateRemoteRepo(answers, repoCreatePreInfo)
 	util.Run(exec.Command("git", "init"), mainRepoName)
 
@@ -47,7 +47,7 @@ func createSubRepo(
 	var subRepoFolderName string
 	subRepoFolderName = subRepoAnswers.RepoName
 	subRepoFolderPath := mainRepoName + "/" + subRepoFolderName
-	os.Mkdir(subRepoFolderPath, 0644)
+	os.Mkdir(subRepoFolderPath, 0775)
 	fmt.Println("create README file for " + subRepoAnswers.RepoName)
 	repoCreator.CreateRemoteRepo(subRepoAnswers, repoCreatePreInfo)
 	util.Run(exec.Command("git", "init"), subRepoFolderPath)
