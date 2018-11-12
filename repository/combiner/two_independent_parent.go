@@ -47,7 +47,7 @@ func createSubRepo(
 	var subRepoFolderName string
 	subRepoFolderName = subRepoAnswers.RepoName
 	subRepoFolderPath := mainRepoName + "/" + subRepoFolderName
-	os.Mkdir(subRepoFolderPath, os.ModeDir)
+	os.Mkdir(subRepoFolderPath, 0644)
 	fmt.Println("create README file for " + subRepoAnswers.RepoName)
 	repoCreator.CreateRemoteRepo(subRepoAnswers, repoCreatePreInfo)
 	util.Run(exec.Command("git", "init"), subRepoFolderPath)

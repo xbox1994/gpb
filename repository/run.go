@@ -13,22 +13,22 @@ import (
 )
 
 var qs = []*survey.Question{
-	{
-		Name:     "gitHostAddress",
-		Prompt:   &survey.Input{Message: "Git Host address:"},
-		Validate: survey.Required,
-	},
-	{
-		Name: "gitServerVersion",
-		Prompt: &survey.Select{
-			Message: "Git server version:",
-			Options: []string{"GitLab 6.3.0 LDAP"},
-			Default: "GitLab 6.3.0 LDAP",
-		},
-	},
+	//{
+	//	Name:     "gitHostAddress",
+	//	Prompt:   &survey.Input{Message: "Git Host address:"},
+	//	Validate: survey.Required,
+	//},
+	//{
+	//	Name: "gitServerVersion",
+	//	Prompt: &survey.Select{
+	//		Message: "Git server version:",
+	//		Options: []string{"GitLab 6.3.0 LDAP"},
+	//		Default: "GitLab 6.3.0 LDAP",
+	//	},
+	//},
 	{
 		Name:     "repoName",
-		Prompt:   &survey.Input{Message: "Main repository name:"},
+		Prompt:   &survey.Input{Message: "(Main) Repository name:"},
 		Validate: survey.Required,
 	},
 	{
@@ -38,18 +38,21 @@ var qs = []*survey.Question{
 	},
 	{
 		Name:     "username",
-		Prompt:   &survey.Input{Message: "Git login username"},
+		Prompt:   &survey.Input{Message: "Git website login page username"},
 		Validate: survey.Required,
 	},
 	{
 		Name:     "password",
-		Prompt:   &survey.Password{Message: "Git login password"},
+		Prompt:   &survey.Password{Message: "Git website login page password"},
 		Validate: survey.Required,
 	},
 }
 
 func Create(projectStructure string) string {
-	answers := model.Answer{}
+	answers := model.Answer{
+		GitHostAddress:   "http://wpsgit.kingsoft.net/",
+		GitServerVersion: "GitLab 6.3.0 LDAP",
+	}
 
 	err := survey.Ask(qs, &answers)
 	if err != nil {

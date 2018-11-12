@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"os"
 )
 
 func main() {
-	fmt.Println(os.Getwd())
+	os.Mkdir("xx", 0644)
 }
