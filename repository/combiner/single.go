@@ -41,5 +41,4 @@ func createRepo(
 	gitRepoPath := "git@" + parse.Host + ":" + answers.RepoNamespace + "/" + answers.RepoName + ".git"
 	util.Run(exec.Command("git", "remote", "add", "origin", gitRepoPath), repoFolderName)
 	util.Run(exec.Command("git", "push", "-u", "origin", "master"), repoFolderName)
-	util.Run(exec.Command("git", "submodule", "add", gitRepoPath, repoFolderName), mainRepoName)
 }
