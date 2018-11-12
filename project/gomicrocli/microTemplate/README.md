@@ -11,7 +11,9 @@
 使用方式： `micro api`
 
 #### 本应用
-安装依赖：`git clone git@wpsgit.kingsoft.net:galaxy/common.git %GOPATH%/src`
+安装依赖：
+* `git clone git@wpsgit.kingsoft.net:galaxy/common.git %GOPATH%/src`
+* `git clone git@ksogit.kingsoft.net:mo_server/vendor.git %GOPATH%/src`
 
 启动方式：先启动consul和micro，然后`go run main.go`
 

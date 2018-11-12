@@ -21,7 +21,7 @@ func (r TwoIndependentParentCombiner) CreateAndCombine(
 	answers model.Answer) {
 	// 在远端与本地同时创建所有Repo
 	mainRepoName := answers.RepoName
-	os.Mkdir(mainRepoName, os.ModeDir)
+	os.Mkdir(mainRepoName, 0644)
 	repoCreator.CreateRemoteRepo(answers, repoCreatePreInfo)
 	util.Run(exec.Command("git", "init"), mainRepoName)
 
