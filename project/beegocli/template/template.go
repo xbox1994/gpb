@@ -19,7 +19,7 @@ type Template struct {
 	StdOut   func(template *Template, args ...string) error
 }
 
-var AvailableTemplates = []*Template{}
+var AvailableTemplates = make([]*Template, 0)
 
 func getPackagePath(absPath string) string {
 	goSrcPath := fmt.Sprintf("%s%s", os.Getenv("GoPath"), `src`)

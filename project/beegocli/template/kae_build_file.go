@@ -25,7 +25,9 @@ func delKaeBuildFile(template *Template, args ...string) (err error) {
 		projectName := args[1]
 		absPath := fmt.Sprintf("%s/%s/%s", projectPath, projectName, template.FilePath)
 		if file, err1 := os.Stat(absPath); err1 != nil {
-			err = err1
+			if !os.IsNotExist(err1) {
+				err = err1
+			}
 		} else {
 			if file.IsDir() {
 				err = os.RemoveAll(absPath)
