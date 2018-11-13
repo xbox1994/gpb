@@ -4,7 +4,7 @@ import (
 	"archive/zip"
 	"fmt"
 	"github.com/rakyll/statik/fs"
-	"grb/common/util"
+	"wps-gpb/common/util"
 	"io/ioutil"
 	"os"
 	"path/filepath"

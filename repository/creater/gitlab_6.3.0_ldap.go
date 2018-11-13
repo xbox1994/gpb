@@ -2,8 +2,8 @@ package creater
 
 import (
 	"fmt"
-	"grb/repository/loginer"
-	"grb/repository/model"
+	"wps-gpb/repository/loginer"
+	"wps-gpb/repository/model"
 	"io/ioutil"
 	"net/http"
 	"net/url"

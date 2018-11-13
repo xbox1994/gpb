@@ -1,6 +1,6 @@
 package loginer
 
-import "grb/repository/model"
+import "wps-gpb/repository/model"
 
 type RepoCreatePreInfo struct {
 	Cookie          string

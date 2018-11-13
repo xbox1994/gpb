@@ -2,9 +2,9 @@ package main
 
 import (
 	"gopkg.in/AlecAivazis/survey.v1"
-	"grb/common/project_type"
-	"grb/project"
-	"grb/repository"
+	"wps-gpb/common/project_type"
+	"wps-gpb/project"
+	"wps-gpb/repository"
 )
 
 func main() {

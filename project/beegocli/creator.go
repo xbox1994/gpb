@@ -2,8 +2,8 @@ package beegocli
 
 import (
 	"fmt"
-	"grb/common/util"
-	"grb/project/beegocli/template"
+	"wps-gpb/common/util"
+	"wps-gpb/project/beegocli/template"
 	"os/exec"
 )
 

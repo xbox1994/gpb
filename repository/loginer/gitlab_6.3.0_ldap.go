@@ -3,7 +3,7 @@ package loginer
 import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
-	"grb/repository/model"
+	"wps-gpb/repository/model"
 	"io/ioutil"
 	"net/http"
 	"net/url"

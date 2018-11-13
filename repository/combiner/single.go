@@ -2,10 +2,10 @@ package combiner
 
 import (
 	"fmt"
-	"grb/common/util"
-	"grb/repository/creater"
-	"grb/repository/loginer"
-	"grb/repository/model"
+	"wps-gpb/common/util"
+	"wps-gpb/repository/creater"
+	"wps-gpb/repository/loginer"
+	"wps-gpb/repository/model"
 	"io/ioutil"
 	"net/url"
 	"os"

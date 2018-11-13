@@ -1,9 +1,9 @@
 package combiner
 
 import (
-	"grb/repository/creater"
-	"grb/repository/loginer"
-	"grb/repository/model"
+	"wps-gpb/repository/creater"
+	"wps-gpb/repository/loginer"
+	"wps-gpb/repository/model"
 )
 
 type RepoCombiner interface {

@@ -4,11 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"gopkg.in/AlecAivazis/survey.v1"
-	"grb/common/project_type"
-	"grb/repository/combiner"
-	"grb/repository/creater"
-	"grb/repository/loginer"
-	"grb/repository/model"
+	"wps-gpb/common/project_type"
+	"wps-gpb/repository/combiner"
+	"wps-gpb/repository/creater"
+	"wps-gpb/repository/loginer"
+	"wps-gpb/repository/model"
 	"os"
 )
 
@@ -64,7 +64,7 @@ func Create(projectStructure string) string {
 	//answers = model.Answer{
 	//	GitHostAddress:   "http://wpsgit.kingsoft.net/",
 	//	GitServerVersion: "GitLab 6.3.0 LDAP",
-	//	RepoName:         "grbtest",
+	//	RepoName:         "wps-gpbtest",
 	//	RepoNamespace:    "galaxy",
 	//	Username:         "wangtianyi1",
 	//	Password:         "",

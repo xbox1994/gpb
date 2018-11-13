@@ -1,8 +1,8 @@
 package creater
 
 import (
-	"grb/repository/loginer"
-	"grb/repository/model"
+	"wps-gpb/repository/loginer"
+	"wps-gpb/repository/model"
 )
 
 type RepoCreator interface {
