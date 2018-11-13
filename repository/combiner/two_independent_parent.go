@@ -2,14 +2,14 @@ package combiner
 
 import (
 	"fmt"
-	"wps-gpb/common/util"
-	"wps-gpb/repository/creater"
-	"wps-gpb/repository/loginer"
-	"wps-gpb/repository/model"
 	"io/ioutil"
 	"net/url"
 	"os"
 	"os/exec"
+	"wps-gpb/common/util"
+	"wps-gpb/repository/creater"
+	"wps-gpb/repository/loginer"
+	"wps-gpb/repository/model"
 )
 
 type TwoIndependentParentCombiner struct {
@@ -51,7 +51,7 @@ func createSubRepo(
 	fmt.Println("create README file for " + subRepoAnswers.RepoName)
 	repoCreator.CreateRemoteRepo(subRepoAnswers, repoCreatePreInfo)
 	util.Run(exec.Command("git", "init"), subRepoFolderPath)
-	ioutil.WriteFile(subRepoFolderPath+"/README", []byte(""), 0644)
+	ioutil.WriteFile(subRepoFolderPath+"/README.md", []byte(""), 0644)
 	util.Run(exec.Command("git", "add", "."), subRepoFolderPath)
 	util.Run(exec.Command("git", "commit", "-m", "\"init\""), subRepoFolderPath)
 	parse, _ := url.Parse(subRepoAnswers.GitHostAddress)
