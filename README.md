@@ -1,5 +1,5 @@
 # grb
-go repo builder
+grb：go repo builder
 
 # 运行方式
 1. 依赖：Golang、Git，将当前用户的ssh key保存到git远端服务器
@@ -12,3 +12,7 @@ go repo builder
 	RepoNamespace:    "galaxy",
 	Username:         "wangtianyi1",
 	Password:         "xxx",
+	
+# 项目构建方式
+1. `go get github.com/rakyll/statik`
+2. `statik -src=project/gomicrocli/microTemplate -dest vendor -Z`
