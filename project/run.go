@@ -2,9 +2,9 @@ package project
 
 import (
 	"gopkg.in/AlecAivazis/survey.v1"
-	"wps-gpb/common/project_type"
-	"wps-gpb/project/beegocli"
-	"wps-gpb/project/gomicrocli"
+	"github.com/xbox1994/wps-gpb/common/project_type"
+	"github.com/xbox1994/wps-gpb/project/beegocli"
+	"github.com/xbox1994/wps-gpb/project/gomicrocli"
 	"os"
 )
 

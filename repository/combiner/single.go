@@ -6,10 +6,10 @@ import (
 	"net/url"
 	"os"
 	"os/exec"
-	"wps-gpb/common/util"
-	"wps-gpb/repository/creater"
-	"wps-gpb/repository/loginer"
-	"wps-gpb/repository/model"
+	"github.com/xbox1994/wps-gpb/common/util"
+	"github.com/xbox1994/wps-gpb/repository/creater"
+	"github.com/xbox1994/wps-gpb/repository/loginer"
+	"github.com/xbox1994/wps-gpb/repository/model"
 )
 
 type SingleCombiner struct {

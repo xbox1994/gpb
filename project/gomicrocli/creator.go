@@ -10,7 +10,7 @@ import (
 	_ "statik"
 	"strings"
 	"unsafe"
-	"wps-gpb/common/util"
+	"github.com/xbox1994/wps-gpb/common/util"
 )
 
 func CreateProject(projectName string, outputPath string) (err error) {

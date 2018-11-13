@@ -2,8 +2,8 @@ package beegocli
 
 import (
 	"fmt"
-	"wps-gpb/common/util"
-	"wps-gpb/project/beegocli/template"
+	"github.com/xbox1994/wps-gpb/common/util"
+	"github.com/xbox1994/wps-gpb/project/beegocli/template"
 	"os/exec"
 )
 

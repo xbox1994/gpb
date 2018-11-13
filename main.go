@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/xbox1994/wps-gpb/common/project_type"
+	"github.com/xbox1994/wps-gpb/project"
+	"github.com/xbox1994/wps-gpb/repository"
 	"gopkg.in/AlecAivazis/survey.v1"
-	"wps-gpb/common/project_type"
-	"wps-gpb/project"
-	"wps-gpb/repository"
 )
 
 func main() {

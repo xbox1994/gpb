@@ -1,8 +1,8 @@
 package creater
 
 import (
-	"wps-gpb/repository/loginer"
-	"wps-gpb/repository/model"
+	"github.com/xbox1994/wps-gpb/repository/loginer"
+	"github.com/xbox1994/wps-gpb/repository/model"
 )
 
 type RepoCreator interface {
