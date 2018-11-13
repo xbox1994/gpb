@@ -44,7 +44,7 @@ func CreateProject(projectName string, outputPath string) (err error) {
 		if strings.Contains(_path, "/") {
 			os.MkdirAll(projectPath+"/"+_path[0:strings.LastIndex(_path, "/")], 0755)
 		}
-		err = ioutil.WriteFile(projectPath+"/"+_path, read, 0755)
+		err = ioutil.WriteFile(projectPath+"/"+_path, read, 0655)
 		if err != nil {
 			panic(err)
 		}
