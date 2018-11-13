@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	_ "statik"
+	"strconv"
 	"strings"
 	"unsafe"
 )
@@ -25,7 +26,11 @@ func CreateProject(projectName string, outputPath string) (err error) {
 	}
 	err = fs.Walk(statikFS, "/", func(path string, info os.FileInfo, err error) error {
 		ptrTof := unsafe.Pointer(&info)
-		ptrTof = unsafe.Pointer(uintptr(ptrTof) + uintptr(8)) // Or 4, if this is 32-bit
+		addressLength := 8
+		if strconv.IntSize == 32 {
+			addressLength = 4
+		}
+		ptrTof = unsafe.Pointer(uintptr(ptrTof) + uintptr(addressLength))
 		ptrToy := (**zip.FileHeader)(ptrTof)
 		_path := (*ptrToy).Name
 
