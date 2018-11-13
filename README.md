@@ -9,7 +9,7 @@ go project builder
 
 # 参考输入
 	RepoName:         "gpbtest",
-	RepoNamespace:    "galaxy",
+	RepoGroupName:    "galaxy",
 	Username:         "wangtianyi1",
 	Password:         "xxx",
 	

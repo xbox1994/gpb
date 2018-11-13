@@ -52,19 +52,24 @@ func (g *Gitlab630Ldap) Login(loginInfo model.LoginInfo) (repoCreatePreInfo Repo
 		fmt.Println(err)
 		return
 	}
+
+	namespaceFound := false
 	doc.Find("#project_namespace_id optgroup").Each(func(i int, s *goquery.Selection) {
 		element := s.Find("option")
-		if element.Text() == loginInfo.RepoNamespace {
-			repoNamespaceId, _ := element.Attr("value")
-			repoCreatePreInfo.RepoNamespaceId = repoNamespaceId
-			fmt.Println("Get repo namespace id: " + repoNamespaceId)
-			return
+		if element.Text() == loginInfo.RepoGroupName {
+			RepoGroupNameId, _ := element.Attr("value")
+			repoCreatePreInfo.RepoGroupNameId = RepoGroupNameId
+			fmt.Println("Get repo namespace id: " + RepoGroupNameId)
+			namespaceFound = true
 		}
 	})
 	res.Body.Close()
 
-	if repoCreatePreInfo.RepoNamespaceId == "" || repoCreatePreInfo.Cookie == "" {
-		panic(fmt.Sprintf("login info invalid: %s, %s\n", repoCreatePreInfo.RepoNamespaceId, repoCreatePreInfo.Cookie))
+	if !namespaceFound {
+		panic("namespace (groups or users) not found: " + loginInfo.RepoGroupName)
+	}
+	if repoCreatePreInfo.RepoGroupNameId == "" || repoCreatePreInfo.Cookie == "" {
+		panic(fmt.Sprintf("login info invalid: %s, %s\n", repoCreatePreInfo.RepoGroupNameId, repoCreatePreInfo.Cookie))
 	}
 
 	return repoCreatePreInfo

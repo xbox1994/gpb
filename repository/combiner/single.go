@@ -38,7 +38,7 @@ func createRepo(
 	util.Run(exec.Command("git", "add", "."), repoFolderName)
 	util.Run(exec.Command("git", "commit", "-m", "\"init\""), repoFolderName)
 	parse, _ := url.Parse(answers.GitHostAddress)
-	gitRepoPath := "git@" + parse.Host + ":" + answers.RepoNamespace + "/" + answers.RepoName + ".git"
+	gitRepoPath := "git@" + parse.Host + ":" + answers.RepoGroupName + "/" + answers.RepoName + ".git"
 	util.Run(exec.Command("git", "remote", "add", "origin", gitRepoPath), repoFolderName)
 	util.Run(exec.Command("git", "push", "-u", "origin", "master"), repoFolderName)
 }

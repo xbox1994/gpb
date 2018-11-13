@@ -34,7 +34,7 @@ func (r TwoIndependentParentCombiner) CreateAndCombine(
 	util.Run(exec.Command("git", "add", "."), mainRepoName)
 	util.Run(exec.Command("git", "commit", "-m", "\"init\""), mainRepoName)
 	parse, _ := url.Parse(answers.GitHostAddress)
-	gitRepoPath := "git@" + parse.Host + ":" + answers.RepoNamespace + "/" + mainRepoName + ".git"
+	gitRepoPath := "git@" + parse.Host + ":" + answers.RepoGroupName + "/" + mainRepoName + ".git"
 	util.Run(exec.Command("git", "remote", "add", "origin", gitRepoPath), mainRepoName)
 	util.Run(exec.Command("git", "push", "-u", "origin", "master"), mainRepoName)
 }
@@ -55,7 +55,7 @@ func createSubRepo(
 	util.Run(exec.Command("git", "add", "."), subRepoFolderPath)
 	util.Run(exec.Command("git", "commit", "-m", "\"init\""), subRepoFolderPath)
 	parse, _ := url.Parse(subRepoAnswers.GitHostAddress)
-	gitRepoPath := "git@" + parse.Host + ":" + subRepoAnswers.RepoNamespace + "/" + subRepoAnswers.RepoName + ".git"
+	gitRepoPath := "git@" + parse.Host + ":" + subRepoAnswers.RepoGroupName + "/" + subRepoAnswers.RepoName + ".git"
 	util.Run(exec.Command("git", "remote", "add", "origin", gitRepoPath), subRepoFolderPath)
 	util.Run(exec.Command("git", "push", "-u", "origin", "master"), subRepoFolderPath)
 	util.Run(exec.Command("git", "submodule", "add", gitRepoPath, subRepoFolderName), mainRepoName)

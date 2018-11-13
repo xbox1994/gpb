@@ -23,7 +23,7 @@ func (g *Gitlab630Ldap) CreateRemoteRepo(answer model.Answer, repoCreatePreInfo 
 
 	form := url.Values{}
 	form.Add("project[name]", answer.RepoName)
-	form.Add("project[namespace_id]", repoCreatePreInfo.RepoNamespaceId)
+	form.Add("project[namespace_id]", repoCreatePreInfo.RepoGroupNameId)
 	req, _ := http.NewRequest("POST",
 		answer.GitHostAddress+"projects",
 		strings.NewReader(form.Encode()))

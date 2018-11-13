@@ -4,7 +4,7 @@ import "github.com/xbox1994/gpb/repository/model"
 
 type RepoCreatePreInfo struct {
 	Cookie          string
-	RepoNamespaceId string
+	RepoGroupNameId string
 }
 
 type GitWebInterfaceLoginer interface {

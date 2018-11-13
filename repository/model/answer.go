@@ -4,7 +4,7 @@ type Answer struct {
 	GitHostAddress   string
 	GitServerVersion string
 	RepoName         string
-	RepoNamespace    string
+	RepoGroupName    string
 	Username         string
 	Password         string
 }

@@ -32,8 +32,8 @@ var qs = []*survey.Question{
 		Validate: survey.Required,
 	},
 	{
-		Name:     "repoNamespace",
-		Prompt:   &survey.Input{Message: "Repository namespace:"},
+		Name:     "RepoGroupName",
+		Prompt:   &survey.Input{Message: "Repository group name:"},
 		Validate: survey.Required,
 	},
 	{
@@ -65,7 +65,7 @@ func Create(projectStructure string) string {
 	//	GitHostAddress:   "http://wpsgit.kingsoft.net/",
 	//	GitServerVersion: "GitLab 6.3.0 LDAP",
 	//	RepoName:         "github.com/xbox1994/gpbtest",
-	//	RepoNamespace:    "galaxy",
+	//	RepoGroupName:    "galaxy",
 	//	Username:         "wangtianyi1",
 	//	Password:         "",
 	//}
@@ -80,12 +80,12 @@ func Create(projectStructure string) string {
 		panic(errors.New(answers.GitServerVersion + " no implement yet"))
 	}
 
-	// 登录获取到Cookie与RepoNamespaceId
+	// 登录获取到Cookie与RepoGroupNameId
 	repoCreatePreInfo := gitLoginer.Login(model.LoginInfo{
 		GitHostAddress: answers.GitHostAddress,
 		Username:       answers.Username,
 		Password:       answers.Password,
-		RepoNamespace:  answers.RepoNamespace,
+		RepoGroupName:  answers.RepoGroupName,
 	})
 
 	var repoCombiner combiner.RepoCombiner
