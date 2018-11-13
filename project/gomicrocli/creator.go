@@ -4,13 +4,13 @@ import (
 	"archive/zip"
 	"fmt"
 	"github.com/rakyll/statik/fs"
+	"github.com/xbox1994/gpb/common/util"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	_ "statik"
 	"strings"
 	"unsafe"
-	"github.com/xbox1994/wps-gpb/common/util"
 )
 
 func CreateProject(projectName string, outputPath string) (err error) {

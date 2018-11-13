@@ -2,14 +2,14 @@ package combiner
 
 import (
 	"fmt"
+	"github.com/xbox1994/gpb/common/util"
+	"github.com/xbox1994/gpb/repository/creater"
+	"github.com/xbox1994/gpb/repository/loginer"
+	"github.com/xbox1994/gpb/repository/model"
 	"io/ioutil"
 	"net/url"
 	"os"
 	"os/exec"
-	"github.com/xbox1994/wps-gpb/common/util"
-	"github.com/xbox1994/wps-gpb/repository/creater"
-	"github.com/xbox1994/wps-gpb/repository/loginer"
-	"github.com/xbox1994/wps-gpb/repository/model"
 )
 
 type TwoIndependentParentCombiner struct {

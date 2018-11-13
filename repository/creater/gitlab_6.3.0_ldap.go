@@ -2,8 +2,8 @@ package creater
 
 import (
 	"fmt"
-	"github.com/xbox1994/wps-gpb/repository/loginer"
-	"github.com/xbox1994/wps-gpb/repository/model"
+	"github.com/xbox1994/gpb/repository/loginer"
+	"github.com/xbox1994/gpb/repository/model"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -33,7 +33,7 @@ func (g *Gitlab630Ldap) CreateRemoteRepo(answer model.Answer, repoCreatePreInfo 
 	body, _ := ioutil.ReadAll(res.Body)
 	if strings.Contains(string(body), answer.RepoName) {
 		fmt.Printf("create repo %s success\n", answer.RepoName)
-	}else{
+	} else {
 		fmt.Printf("create repo %s failed\n", answer.RepoName)
 	}
 }

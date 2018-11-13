@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/xbox1994/wps-gpb/common/project_type"
-	"github.com/xbox1994/wps-gpb/project"
-	"github.com/xbox1994/wps-gpb/repository"
+	"github.com/xbox1994/gpb/common/project_type"
+	"github.com/xbox1994/gpb/project"
+	"github.com/xbox1994/gpb/repository"
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 

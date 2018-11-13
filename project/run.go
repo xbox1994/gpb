@@ -1,10 +1,10 @@
 package project
 
 import (
+	"github.com/xbox1994/gpb/common/project_type"
+	"github.com/xbox1994/gpb/project/beegocli"
+	"github.com/xbox1994/gpb/project/gomicrocli"
 	"gopkg.in/AlecAivazis/survey.v1"
-	"github.com/xbox1994/wps-gpb/common/project_type"
-	"github.com/xbox1994/wps-gpb/project/beegocli"
-	"github.com/xbox1994/wps-gpb/project/gomicrocli"
 	"os"
 )
 
