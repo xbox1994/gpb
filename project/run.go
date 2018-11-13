@@ -16,7 +16,7 @@ func CreateProjects(projectStructure string, projectName string) (err error) {
 		err = selectAndGenerateProject(projectName, "-admin", ".")
 		err = selectAndGenerateProject(projectName, "-server", ".")
 	case project_type.TwoIndependentWithParent:
-		os.Mkdir(projectName, os.ModeDir)
+		os.Mkdir(projectName, 0755)
 		err = selectAndGenerateProject(projectName, "-admin", projectName)
 		err = selectAndGenerateProject(projectName, "-server", projectName)
 	}
