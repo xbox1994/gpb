@@ -4,13 +4,13 @@ import (
 	"archive/zip"
 	"fmt"
 	"github.com/rakyll/statik/fs"
-	"wps-gpb/common/util"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	_ "statik"
 	"strings"
 	"unsafe"
+	"wps-gpb/common/util"
 )
 
 func CreateProject(projectName string, outputPath string) (err error) {
@@ -44,7 +44,7 @@ func CreateProject(projectName string, outputPath string) (err error) {
 		if strings.Contains(_path, "/") {
 			os.MkdirAll(projectPath+"/"+_path[0:strings.LastIndex(_path, "/")], 0755)
 		}
-		err = ioutil.WriteFile(projectPath+"/"+_path, read, 0)
+		err = ioutil.WriteFile(projectPath+"/"+_path, read, 0755)
 		if err != nil {
 			panic(err)
 		}
