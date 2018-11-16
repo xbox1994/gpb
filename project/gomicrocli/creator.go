@@ -59,6 +59,15 @@ func CreateProject(projectName string, outputPath string) (err error) {
 		panic(err)
 	}
 
+	f, err := os.OpenFile(projectPath+"/.gitignore", os.O_CREATE, 0644)
+	if err != nil {
+		panic(err)
+	}
+	if _, err = f.WriteString(projectName); err != nil {
+		panic(err)
+	}
+	f.Close()
+
 	err = filepath.Walk(projectPath, util.Replace("microTemplate", projectName))
 	if err != nil {
 		panic(err)

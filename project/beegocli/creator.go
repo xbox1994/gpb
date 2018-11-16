@@ -39,6 +39,8 @@ func CreateProject(projectName string, path string) (err error) {
 				break
 			}
 		}
+	} else {
+		panic(err)
 	}
 	return
 }
