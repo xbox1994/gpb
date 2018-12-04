@@ -9,7 +9,7 @@
     <tag>access</tag> <!-- the tag of accesslog MUST be access -->
     <type>file</type>
     <level>ACCESS</level><!-- the level of accesslog MUST be access -->
-    <property name="filename">log/access.log</property>
+    <property name="filename">/var/log/access.log</property>
     <property name="format">[%D %T] [%L] %M</property>
     <property name="rotate">true</property>
     <property name="maxsize">1000M</property>
@@ -22,7 +22,7 @@
     <!-- level is (:?FINEST|FINE|DEBUG|TRACE|INFO|WARNING|ERROR) -->
     <level>FINEST</level>
     <!--<exclude>github.com/yaosxi</exclude>-->
-    <property name="filename">log/finest.log</property>
+    <property name="filename">/var/log/finest.log</property>
     <!--
        %T - Time (15:04:05 MST)
        %t - Time (15:04)
@@ -44,7 +44,7 @@
     <tag>file_info</tag>
     <type>file</type>
     <level>INFO</level>
-    <property name="filename">log/info.log</property>
+    <property name="filename">/var/log/info.log</property>
     <property name="format">[%D %T] [%L] (%S) %M</property>
     <property name="rotate">true</property>
     <property name="maxsize">1000M</property>
@@ -55,7 +55,7 @@
     <tag>file_error</tag>
     <type>file</type>
     <level>ERROR</level>
-    <property name="filename">log/error.log</property>
+    <property name="filename">/var/log/error.log</property>
     <property name="format">[%D %T] [%L] (%S) %M</property>
     <property name="rotate">true</property>
     <property name="maxsize">1000M</property>
