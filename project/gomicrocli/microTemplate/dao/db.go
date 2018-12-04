@@ -9,18 +9,18 @@ import (
 )
 
 const (
-	DATABASE      = "microTemplate"
-	MAX_IDLE_CONN = 10
-	MAX_OPEN_CONN = 100
+	DatabaseName      = "microTemplate"
 )
 
 func init() {
 	user := beego.AppConfig.String("db_user")
 	pwd := beego.AppConfig.String("db_pwd")
 	host := beego.AppConfig.String("db_host")
-	log.Info(nil, host)
+	idleConns, _ := beego.AppConfig.Int("db_idle_conns")
+	maxOpenConns, _ := beego.AppConfig.Int("db_max_open_conns")
+	log.Info(nil, user, host, idleConns, maxOpenConns)
 
-	url := fmt.Sprintf("%s:%s@%s/%s?charset=utf8", user, pwd, host, DATABASE)
-	orm.RegisterDataBase("default", "mysql", url, MAX_IDLE_CONN, MAX_OPEN_CONN)
-	orm.RegisterDataBase(DATABASE, "mysql", url, MAX_IDLE_CONN, MAX_OPEN_CONN)
+	url := fmt.Sprintf("%s:%s@%s/%s?charset=utf8", user, pwd, host, DatabaseName)
+	orm.RegisterDataBase("default", "mysql", url, idleConns, maxOpenConns)
+	orm.RegisterDataBase(DatabaseName, "mysql", url, idleConns, maxOpenConns)
 }
