@@ -10,6 +10,16 @@ $ go run main.go
 In another terminal, try making requests:
 
 ```bash
-# Get all users as a non-admin - see only one user, with a subset of json attributes
-$ curl -i http://localhost:8080/users
+curl -i http://localhost:8080/users
+```
+
+```bash
+curl -i http://localhost:8080/users/1
+```
+
+```bash
+curl -X POST \
+  http://localhost:8080/users \
+  -H 'content-type: application/json' \
+  -d '{"id": 1, "name":"wty"}'
 ```

@@ -47,7 +47,11 @@ spec:
   - port: 80
     targetPort: backend-http
     name: http
+{%- if IS_PROD %}
   - port: 443
     targetPort: backend-http
     name: https
+  type: LoadBalancer
+{%- else %}
   type: NodePort
+{%- endif %}
