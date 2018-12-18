@@ -8,5 +8,6 @@ const (
 
 const (
 	Beego = "Beego framework"
+	Gin = "Gin framework"
 	GoMicro = "Go Micro framework"
 )

@@ -68,6 +68,6 @@ func CreateProject(projectName string, outputPath string) (err error) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("Create project %s success", projectName)
+	fmt.Printf("Create go micro project %s success", projectName)
 	return err
 }

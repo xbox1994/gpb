@@ -16,3 +16,4 @@ go project builder
 # 项目构建方式
 1. `go get github.com/rakyll/statik`
 2. `statik -src=project/gomicrocli/microTemplate -dest vendor -Z`
+3. `statik -src=project/gincli/ginTemplate -dest vendor -Z -p statik_gin`，修改`statik.go`源码暴露出data，自己重新注册

@@ -3,6 +3,7 @@ package project
 import (
 	"github.com/xbox1994/gpb/common/project_type"
 	"github.com/xbox1994/gpb/project/beegocli"
+	"github.com/xbox1994/gpb/project/gincli"
 	"github.com/xbox1994/gpb/project/gomicrocli"
 	"gopkg.in/AlecAivazis/survey.v1"
 	"os"
@@ -25,7 +26,7 @@ func CreateProjects(projectStructure string, projectName string) (err error) {
 
 func selectAndGenerateProject(projectName string, projectSuffix string, path string) error {
 	projectFramework := ""
-	projectStructureArray := []string{project_type.Beego, project_type.GoMicro}
+	projectStructureArray := []string{project_type.Beego, project_type.Gin, project_type.GoMicro}
 	err := survey.AskOne(
 		&survey.Select{
 			Message: "Select " + projectSuffix + " project framework:",
@@ -38,6 +39,8 @@ func selectAndGenerateProject(projectName string, projectSuffix string, path str
 	switch projectFramework {
 	case project_type.Beego:
 		err = beegocli.CreateProject(projectName+projectSuffix, path)
+	case project_type.Gin:
+		err = gincli.CreateProject(projectName+projectSuffix, path)
 	case project_type.GoMicro:
 		err = gomicrocli.CreateProject(projectName+projectSuffix, path)
 	}
