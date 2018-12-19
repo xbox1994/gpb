@@ -22,9 +22,99 @@ spec:
         ports:
         - name: backend-http
           containerPort: 8080
+# TODO: To Open Flow Commit to use env Begin
+#        env:
+#        - name: "ENV_1"
+#          value: "sample"
+# ** End use env
+# TODO: To Open Flow Commit to Deploy to 10.13.89.41 Begin
+#      imagePullSecrets:
+#      - name: awsecrpullkey
+# ** End Deploy to 10.13.89.41
+# TODO: To Open Flow Commit use pv ** Begin
+#        volumeMounts:
+#        - name: nfs-pvc
+#          mountPath: "/mnt"
+#      volumes:
+#      - name: nfs-pvc
+#        persistentVolumeClaim:
+#          claimName: test-solr-claim
+# ** End pv
+# TODO: To Open Flow Commit use es ** Begin
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+      - name: fluentd-agent
+        image: k8s.gcr.io/fluentd-elasticsearch:v2.2.0
         env:
-        - name: ENV_MODE
-          value: ${env_mode}
+        - name: FLUENTD_ARGS
+          value: -c /etc/fluentd-config/fluentd.conf
+        - name: FLUENT_ELASTICSEARCH_HOST
+          value: search-wps-es-us2-d5e2rrnaueyd4hexo6t4jg6byu.us-west-2.es.amazonaws.com
+        - name: FLUENT_ELASTICSEARCH_PORT
+          value: "443"
+        - name: WPS_ES_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: WPS_ES_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: WPS_ES_POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+        - name: config-volume
+          mountPath: /etc/fluentd-config
+      volumes:
+      - name: varlog
+        emptyDir: {}
+      - name: config-volume
+        configMap:
+          name: eslogout-fluentd-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eslogout-fluentd-config
+  namespace: ${app_namespace}
+data:
+  fluentd.conf: |
+    <source>
+      @type tail
+      <parse>
+        @type json
+      </parse>
+      path "#{ENV['WPS_ES_LOGPATHS'] || '/var/log/*.log'}"
+      pos_file /var/log/fluentd.log.pos
+      tag "wpslog_#{ENV['WPS_ES_POD_NAMESPACE'] || 'unknown'}_#{ENV['WPS_ES_POD_NAME'] || 'unknown'}_#{ENV['WPS_ES_POD_UID'] || 'unknown'}_*"
+    </source>
+
+    <match **>
+      @type elasticsearch
+      @id out_es
+      @log_level info
+      include_tag_key true
+      host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
+      port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+      scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'https'}"
+      ssl_verify "#{ENV['FLUENT_ELASTICSEARCH_SSL_VERIFY'] || 'true'}"
+      reload_connections "#{ENV['FLUENT_ELASTICSEARCH_RELOAD_CONNECTIONS'] || 'true'}"
+      logstash_prefix "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_PREFIX'] || 'gintest'}"
+      logstash_format true
+      type_name fluentd
+      buffer_chunk_limit 2M
+      buffer_queue_limit 32
+      flush_interval 5s
+      max_retry_wait 30
+      disable_retry_limit
+      num_threads 1
+    </match>
+# ** End ES
 ---
 kind: Service
 apiVersion: v1
@@ -37,21 +127,23 @@ metadata:
     # Note that the backend talks over HTTP.
     service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
     # TODO: Fill in with the ARN of your certificate.
-    # service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:{region}:{user id}:certificate/{id}
+    # *.4wps.net
+    # service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-west-2:007674436253:certificate/ce20fb01-37be-45e2-9e7a-59b5ca64221b
+    # micro.api.wps.com
+    # service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-west-2:007674436253:certificate/397d728f-af54-416c-97d4-e51704c94448
+    # ssl-wps-com-201808
+    # service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:iam::007674436253:server-certificate/ssl-wps-com-201808
     # Only run SSL on the port named "https" below.
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+    # service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
 spec:
   selector:
     k8s-app: ${app_name}
   ports:
-  - port: 80
-    targetPort: backend-http
-    name: http
-{%- if IS_PROD %}
-  - port: 443
-    targetPort: backend-http
-    name: https
+    - port: 80
+      targetPort: backend-http
+      name: http
+#    - port: 443
+#      targetPort: backend-http
+#      name: https
   type: LoadBalancer
-{%- else %}
-  type: NodePort
-{%- endif %}
+#  type: NodePort

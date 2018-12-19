@@ -23,11 +23,6 @@ import (
 	"sync"
 )
 
-// watcher interface is used for context support (From Go 1.8)
-type watcher interface {
-	startWatcher()
-}
-
 // MySQLDriver is exported to make the driver directly accessible.
 // In general the driver is used via the database/sql package.
 type MySQLDriver struct{}
@@ -55,7 +50,7 @@ func RegisterDial(net string, dial DialFunc) {
 
 // Open new Connection.
 // See https://github.com/go-sql-driver/mysql#dsn-data-source-name for how
-// the DSN string is formated
+// the DSN string is formatted
 func (d MySQLDriver) Open(dsn string) (driver.Conn, error) {
 	var err error
 
@@ -82,6 +77,10 @@ func (d MySQLDriver) Open(dsn string) (driver.Conn, error) {
 		mc.netConn, err = nd.Dial(mc.cfg.Net, mc.cfg.Addr)
 	}
 	if err != nil {
+		if nerr, ok := err.(net.Error); ok && nerr.Temporary() {
+			errLog.Print("net.Error from Dial()': ", nerr.Error())
+			return nil, driver.ErrBadConn
+		}
 		return nil, err
 	}
 
@@ -96,9 +95,7 @@ func (d MySQLDriver) Open(dsn string) (driver.Conn, error) {
 	}
 
 	// Call startWatcher for context support (From Go 1.8)
-	if s, ok := interface{}(mc).(watcher); ok {
-		s.startWatcher()
-	}
+	mc.startWatcher()
 
 	mc.buf = newBuffer(mc.netConn)
 

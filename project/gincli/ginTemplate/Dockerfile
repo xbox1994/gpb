@@ -1,9 +1,6 @@
-FROM alpine:latest
-RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
-
-WORKDIR /app
-ADD ginTemplate .
-ADD conf conf
+FROM alpine
+WORKDIR /usr/src/app
+COPY . .
 RUN chmod +x ginTemplate
-
-ENTRYPOINT [ "./ginTemplate" ]
+EXPOSE 8080
+CMD ./ginTemplate > /var/log/ginTemplate.log
