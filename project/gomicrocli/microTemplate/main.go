@@ -5,12 +5,15 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/hashicorp/consul/api"
 	"github.com/micro/go-api/proto"
 	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/registry/consul"
 	"microTemplate/proto"
 	"microTemplate/request"
 	"microTemplate/service"
 	"os"
+	"time"
 )
 
 type Say struct {
@@ -42,8 +45,14 @@ func (s *Say) Hello(ctx context.Context, req *go_api.Request, rsp *go_api.Respon
 }
 
 func main() {
+	config := api.DefaultConfig()
+	config.Address = os.Getenv("MICRO_REGISTRY_ADDRESS_CUSTOM")
+	if config.Address == "" {
+		config.Address = "127.0.0.1:8500"
+	}
 	service := micro.NewService(
 		micro.Name("go.micro.api.hello"),
+		micro.Registry(consul.NewRegistry(consul.Config(config), consul.TCPCheck(time.Second))),
 	)
 	service.Init()
 	hello.RegisterHelloHandler(service.Server(), &Say{})
